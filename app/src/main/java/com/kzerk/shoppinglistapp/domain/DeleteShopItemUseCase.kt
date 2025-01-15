@@ -1,6 +1,6 @@
 package com.kzerk.shoppinglistapp.domain
 
-class deleteShopItemUseCase(private val shopListRepository: ShopListRepository) {
+class DeleteShopItemUseCase(private val shopListRepository: ShopListRepository) {
 	fun deleteShopItem(shopItem: ShopItem) {
 		shopListRepository.deleteShopItem(shopItem)
 	}
