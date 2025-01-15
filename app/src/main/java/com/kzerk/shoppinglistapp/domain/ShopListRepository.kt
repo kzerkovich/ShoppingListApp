@@ -1,6 +1,6 @@
 package com.kzerk.shoppinglistapp.domain
 
-interface ShopLIstRepository {
+interface ShopListRepository {
 	fun addShopItem(shopItem: ShopItem)
 
 	fun deleteShopItem(shopItem: ShopItem)
