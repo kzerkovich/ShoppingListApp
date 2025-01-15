@@ -1,7 +1,7 @@
 package com.kzerk.shoppinglistapp.domain
 
-class addShopItemUseCase {
+class addShopItemUseCase(private val shopListRepository: ShopLIstRepository){
 	fun addShopItem(shopItem: ShopItem) {
-
+		shopListRepository.addShopItem(shopItem)
 	}
 }
