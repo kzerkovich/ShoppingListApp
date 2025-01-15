@@ -1,7 +1,7 @@
 package com.kzerk.shoppinglistapp.domain
 
-class getShopListUseCase {
+class getShopListUseCase(private val shopListRepository: ShopLIstRepository) {
 	fun getShopList(): List<ShopItem> {
-		TODO()
+		return shopListRepository.getShopList()
 	}
 }
