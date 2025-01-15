@@ -5,7 +5,7 @@ plugins {
 
 android {
 	namespace = "com.kzerk.shoppinglistapp"
-	compileSdk = 34
+	compileSdk = 35
 
 	defaultConfig {
 		applicationId = "com.kzerk.shoppinglistapp"
