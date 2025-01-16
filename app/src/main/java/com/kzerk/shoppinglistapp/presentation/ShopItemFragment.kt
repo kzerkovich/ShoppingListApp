@@ -1,5 +1,6 @@
 package com.kzerk.shoppinglistapp.presentation
 
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -26,6 +27,17 @@ class ShopItemFragment() : Fragment() {
 
 	private var screenMode: String = MODE_UNKNOWN
 	private var shopItemId: Int = ShopItem.UNDEFINED_ID
+
+	private lateinit var onEditingFinishListener : OnEditingFinishListener
+
+	override fun onAttach(context: Context) {
+		super.onAttach(context)
+		if (context is OnEditingFinishListener) {
+			onEditingFinishListener = context
+		}
+		else
+			throw RuntimeException("Activity must implement listener")
+	}
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -67,7 +79,7 @@ class ShopItemFragment() : Fragment() {
 			tilName.error = message
 		}
 		viewModel.shouldCloseScreen.observe(viewLifecycleOwner) {
-			activity?.onBackPressedDispatcher?.onBackPressed()
+			onEditingFinishListener.onEditingFinished()
 		}
 	}
 
@@ -144,6 +156,10 @@ class ShopItemFragment() : Fragment() {
 		etName = view.findViewById(R.id.et_name)
 		etCount = view.findViewById(R.id.et_count)
 		buttonSave = view.findViewById(R.id.save_button)
+	}
+
+	interface OnEditingFinishListener {
+		fun onEditingFinished()
 	}
 
 	companion object {
