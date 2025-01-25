@@ -2,8 +2,12 @@ package com.kzerk.shoppinglistapp.presentation
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.ListAdapter
 import com.kzerk.shoppinglistapp.R
+import com.kzerk.shoppinglistapp.databinding.ItemShopDisabledBinding
+import com.kzerk.shoppinglistapp.databinding.ItemShopEnabledBinding
 import com.kzerk.shoppinglistapp.domain.ShopItem
 
 class ShopListAdapter : ListAdapter<ShopItem, ShopItemViewHolder>(ShopItemDiffCallback()) {
@@ -16,22 +20,35 @@ class ShopListAdapter : ListAdapter<ShopItem, ShopItemViewHolder>(ShopItemDiffCa
 			VIEW_TYPE_DISABLED -> R.layout.item_shop_disabled
 			else -> throw RuntimeException("Unknown viewType: $viewType")
 		}
-		val view = LayoutInflater.from(parent.context)
-			.inflate(layout, parent, false)
-		return ShopItemViewHolder(view)
+		val binding = DataBindingUtil.inflate<ViewDataBinding>(
+			LayoutInflater.from(parent.context),
+			layout,
+			parent,
+			false
+		)
+		return ShopItemViewHolder(binding)
 	}
 
 	override fun onBindViewHolder(viewHolder: ShopItemViewHolder, position: Int) {
 		val shopItem = getItem(position)
-		viewHolder.view.setOnLongClickListener {
+		val binding = viewHolder.binding
+		binding.root.setOnLongClickListener {
 			onShopItemLongClickListener?.invoke(shopItem)
 			true
 		}
-		viewHolder.view.setOnClickListener {
+		binding.root.setOnClickListener {
 			onShopItemClickListener?.invoke(shopItem)
 		}
-		viewHolder.tvName.text = shopItem.name
-		shopItem.count.toString().also { viewHolder.tvCount.text = it }
+		when (binding) {
+			is ItemShopDisabledBinding -> {
+				binding.shopItem = shopItem
+			}
+
+			is ItemShopEnabledBinding -> {
+				binding.shopItem = shopItem
+			}
+		}
+
 	}
 
 	override fun getItemViewType(position: Int): Int {
