@@ -1,7 +1,8 @@
 plugins {
 	alias(libs.plugins.android.application)
 	alias(libs.plugins.kotlin.android)
-	alias(libs.plugins.kotlin.kapt)
+	alias(libs.plugins.com.google.devtools.ksp)
+	kotlin("kapt") version "2.1.0"
 }
 
 android {
@@ -49,6 +50,15 @@ dependencies {
 	implementation(libs.material)
 	implementation(libs.androidx.activity)
 	implementation(libs.androidx.constraintlayout)
+
+	implementation (libs.kotlinx.coroutines.core)
+	implementation (libs.kotlinx.coroutines.android)
+
+	implementation(libs.androidx.room)
+	ksp(libs.room.compiler)
+	implementation (libs.lifecycle.viewmodel.ktx)
+	implementation (libs.lifecycle.runtime.ktx)
+
 	testImplementation(libs.junit)
 	androidTestImplementation(libs.androidx.junit)
 	androidTestImplementation(libs.androidx.espresso.core)

@@ -2,17 +2,21 @@
 <layout>
 
     <data>
+
         <variable
             name="viewModel"
-            type="com.kzerk.shoppinglistapp.presentation.ShopItemViewModel" />
+            type="com.kzerk.shoppinglistapp.presentation.ShopItemViewModel"
+            />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".presentation.ShopItemFragment">
+        tools:context=".presentation.ShopItemFragment"
+        >
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/til_name"
@@ -26,15 +30,17 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_chainStyle="packed">
+            app:layout_constraintVertical_chainStyle="packed"
+            >
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{viewModel.shopItem.name}"
                 android:hint="@string/name_hint"
-                android:inputType="textCapWords" />
+                android:inputType="textCapWords"
+                android:text="@{viewModel.shopItem.name}"
+                />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -48,15 +54,17 @@
             app:layout_constraintBottom_toTopOf="@+id/save_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/til_name">
+            app:layout_constraintTop_toBottomOf="@+id/til_name"
+            >
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_count"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/count_hint"
+                android:inputType="number"
                 android:text="@{String.valueOf(viewModel.shopItem.count)}"
-                android:inputType="number" />
+                />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
@@ -66,6 +74,7 @@
             android:text="@string/save_btn"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
