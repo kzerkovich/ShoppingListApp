@@ -13,19 +13,28 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.kzerk.shoppinglistapp.R
 import com.kzerk.shoppinglistapp.databinding.ActivityMainBinding
+import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishListener {
 	private lateinit var viewModel: MainViewModel
 	private lateinit var shopListAdapter: ShopListAdapter
 	private lateinit var binding: ActivityMainBinding
 
+	@Inject
+	lateinit var viewModelFactory: ViewModelFactory
+
+	private val component by lazy {
+		(application as ShopApplication).component
+	}
+
 	override fun onCreate(savedInstanceState: Bundle?) {
+		component.inject(this)
 		super.onCreate(savedInstanceState)
 		enableEdgeToEdge()
 		binding = ActivityMainBinding.inflate(layoutInflater)
 		setContentView(binding.root)
 		setupRecyclerView()
-		viewModel = ViewModelProvider(this)[MainViewModel::class.java]
+		viewModel = ViewModelProvider(this, viewModelFactory)[MainViewModel::class.java]
 		viewModel.shopList.observe(this) {
 			shopListAdapter.submitList(it)
 		}
