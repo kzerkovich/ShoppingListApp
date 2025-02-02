@@ -1,8 +1,9 @@
 package com.kzerk.shoppinglistapp.data
 
 import com.kzerk.shoppinglistapp.domain.ShopItem
+import javax.inject.Inject
 
-class ShopListMapper {
+class ShopListMapper @Inject constructor(){
 
 	fun mapEntityToDbModel(shopItem: ShopItem) = ShopItemDbModel(
 		id = shopItem.id,

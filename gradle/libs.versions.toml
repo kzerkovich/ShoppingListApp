@@ -16,7 +16,7 @@ lifecycle-runtime-ktx = "2.8.7"
 room = "2.6.1"
 room-compiler = "2.6.1"
 ksp = "2.1.0-1.0.29"
-
+dagger = "2.55"
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -34,7 +34,8 @@ lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-view
 lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle-runtime-ktx"}
 androidx-room = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room-compiler" }
-
+android-dagger = {group = "com.google.dagger", name = "dagger", version.ref = "dagger"}
+android-dagger-compiler = {group = "com.google.dagger", name = "dagger-compiler", version.ref = "dagger"}
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
