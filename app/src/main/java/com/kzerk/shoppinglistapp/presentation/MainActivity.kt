@@ -1,5 +1,7 @@
 package com.kzerk.shoppinglistapp.presentation
 
+import android.annotation.SuppressLint
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -13,7 +15,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.kzerk.shoppinglistapp.R
 import com.kzerk.shoppinglistapp.databinding.ActivityMainBinding
+import com.kzerk.shoppinglistapp.domain.ShopItem
 import javax.inject.Inject
+import kotlin.concurrent.thread
 
 class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishListener {
 	private lateinit var viewModel: MainViewModel
@@ -27,6 +31,7 @@ class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishListen
 		(application as ShopApplication).component
 	}
 
+	@SuppressLint("Recycle")
 	override fun onCreate(savedInstanceState: Bundle?) {
 		component.inject(this)
 		super.onCreate(savedInstanceState)
@@ -48,6 +53,32 @@ class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishListen
 				launchFragment(ShopItemFragment.newInstanceAddItem())
 			}
 		}
+		thread {
+			val cursor = contentResolver.query(
+				Uri.parse("content://com.kzerk.shoppinglistapp/shop_items"),
+				null,
+				null,
+				null,
+				null,
+				null
+			)
+
+			while (cursor?.moveToNext() == true) {
+				val id = cursor.getInt(cursor.getColumnIndexOrThrow("id"))
+				val name = cursor.getString(cursor.getColumnIndexOrThrow("name"))
+				val count = cursor.getInt(cursor.getColumnIndexOrThrow("count"))
+				val enabled = cursor.getInt(cursor.getColumnIndexOrThrow("enabled")) > 0
+				val shopItem = ShopItem(
+					id = id,
+					name = name,
+					count = count,
+					enabled = enabled
+				)
+				Log.d("MainActivity", shopItem.toString())
+			}
+			cursor?.close()
+		}
+
 	}
 
 	override fun onEditingFinished() {
@@ -103,7 +134,14 @@ class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishListen
 
 			override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
 				val item = shopListAdapter.currentList[viewHolder.adapterPosition]
-				viewModel.deleteShopItem(item)
+//				viewModel.deleteShopItem(item)
+				thread {
+					contentResolver.delete(
+						Uri.parse("content://com.kzerk.shoppinglistapp/shop_items"),
+						null,
+						arrayOf(item.id.toString())
+					)
+				}
 			}
 		}
 		val itemTouchHelper = ItemTouchHelper(callback)
